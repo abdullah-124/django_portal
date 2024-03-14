@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block body %}
+<div class="container py-5">
+    <article class="mb-5">
+        <h1>{{article.headline}}</h1>
+        <small>Author: <a class="text-decoration-none h6"
+                href="{% url 'public_profile' article.author.username %}">{{article.author}}</a></small><br>
+        <small>Published At: {{article.publishing_time|date:'Y-m-d'}}</small><br>
+        <small>Rating: {{article.rating}}⭐</small>
+        <hr>
+        <div class="col-8 m-auto">
+            {% if article.image %}
+            <img class="w-100" src="{{article.image.url}}" alt="">
+            {% else %}
+            <img class="w-100" src="{% static 'image.jpg' %}" alt="">
+            {% endif %}
+        </div>
+        <hr>
+        <div>
+            <p>{{article.body}}</p>
+        </div>
+    </article>
+    <section>
+        <hr>
+        <h4>Comments</h4>
+        <div class="col-lg-6 col-md-10 col-12 m-auto">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{form|crispy}}
+                <button class="btn btn-primary" type="submit">Post</button>
+            </form>
+        </div>
+    </section>
+    {% if reviews %}
+    <section>
+        <hr>
+        <h6>Total {{reviews|length}} reviews found</h6>
+        <div class="row row-cols-12 row-cols-lg-5 row-cols-md-3">
+            {% for i in reviews %}
+            <div class="col ">
+                <div class="p-3 rounded shadow-lg m-1 border border-primary ">
+                    <div class="d-flex justify-content-between">
+                        <p><a class="text-decoration-none h6"
+                                href="{% url 'public_profile' article.author.username %}">{{i.user}}</a></p>
+                        <p>{{i.rating}}*</p>
+                    </div>
+                    {% if i.comment %}
+                    <p>{{i.comment}}</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <hr>
+    </section>
+    {% endif %}
+    {% if releted_items %}
+    <section>
+        <h4 class="my-4">Related Article</h4>
+        <div class="row row-cols-lg-4 row-cols-md-3 row-cols-12 align-items-stretch g-5">
+            {% for i in releted_items %}
+            <div class="col ">
+                <div class="card">
+                    <article class="">
+                        {% if i.image %}
+                        <img class="img-fluid article_img" src="{{ i.image.url }}">
+                        {% else %}
+                        <img class="img-fluid article_img" src="{% static 'image.jpg' %}" alt="">
+                        {% endif %}
+                        <div class="px-3">
+                            <div class="mt-2 d-flex justify-content-between">
+                                <small class="">Category:{{i.category.name}}</small>
+                                <small>Author:<a class="text-decoration-none"
+                                        href="{% url 'public_profile' i.author.username %}">{{article.author}}</a></small>
+                            </div>
+                            <small>Rating: {{i.rating}}</small>
+                            <h6><a class="text-decoration-none"
+                                    href="{% url 'detaile_article' article.id %}">{{i.headline}}</a></h6>
+                        </div>
+                    </article>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+</div>
+{% endblock body %}

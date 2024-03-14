@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block body %}
+    <div class="container">
+        <div class="col-lg-7 col-md-10 col-12 m-auto">
+            <form class="px-5 py-3" method="post">
+                <!-- {{form|crispy}} -->
+                {% csrf_token %}
+                <h4>Registration</h4>
+                {% for fm in form %}
+                  {% if fm.errors %}
+                  <p>fm.errors</p>
+                  {% endif %}
+                {% endfor %}
+                <div>
+                    <label for="username">Username</label>:
+                    {{form.username}}
+                </div>
+                <div>
+                    <label for="first_name">First Name</label>:
+                    {{form.first_name}}
+                </div>
+                <div>
+                    <label for="last_name">Lastname</label>:
+                    {{form.last_name}}
+                </div>
+                <div>
+                    <label for="email">Email</label>:
+                    {{form.email}}
+                </div>
+                <div>
+                    <label for="password1">Password</label>:
+                    {{form.password1}}
+                </div>
+                <div>
+                    <label for="password2">Confirm Password</label>:
+                    {{form.password2}}
+                </div>
+                <small>Already have a account <a href="{% url 'login' %}">login</a></small><br>
+                <button class="mt-3 btn btn-primary" type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+{% endblock body %}
+    

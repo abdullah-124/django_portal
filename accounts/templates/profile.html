@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block body %}
+<div class="m-auto shadow-lg rounded col-lg-6 col-md-10 col-12 mt-5">
+    <form class="px-4 py-5" action="" method="post">
+        <!-- {{form|crispy}} -->
+        {% csrf_token %}
+        <h4 class="text-primary">Username: {{user.username}}</h4>
+        <div>
+            <label for="first_name">First Name:</label>
+            {{form.first_name}}
+        </div>
+        <div>
+            <label for="last">Last Name:</label>
+            {{form.last_name}}
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            {{form.email}}
+        </div>
+        <div>
+            <label for="first_name">New Password:</label>
+            {{form.password1}}
+        </div>
+        <div>
+            <label for="first_name">Confirm Passowrd:</label>
+            {{form.first_name}}
+        </div>
+        <button class="btn btn-outline-dark mt-2" type="submit">Update</button>
+    </form>
+</div>
+<section class="container my-5">
+    <h3>Your Articles</h3>
+    <div class="row row-cols-lg-4 row-cols-md-3 row-cols-12 align-items-stretch g-5">
+
+        {% for article in articles %}
+        <div class="col ">
+            <div class="card">
+                <article class="">
+                    {% if article.image %}
+                    <img class="img-fluid article_img" src="{{ article.image.url }}">
+                    {% else %}
+                    <img class="img-fluid article_img" src="{% static 'image.jpg' %}" alt="">
+                    {% endif %}
+                    <div class="px-2">
+                        <div class="mt-2 d-flex justify-content-between fw-bold">
+                            <small class="">Category:{{article.category.name}}</small>
+                            <small>Author: {{article.author}}</small>
+                        </div>
+                        <small>Rating: {{article.rating}}</small>
+                        <a class="nav-link" href="{% url 'detaile_article' article.id %}">
+                            <h6 class="text-dark">{{article.headline}}</h6>
+                        </a>
+                        <div class="my-2 d-flex justify-content-between fw-bold">
+                            <a class="btn btn-outline-danger" href="{% url 'delete_article' article.id %}">Delete</a>
+                            <a class="btn btn-outline-success" href="{% url 'edit_article' article.id %}">Edit</a>
+                            
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock body %}

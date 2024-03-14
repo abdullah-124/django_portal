@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body  %}
+    <div class="container">
+        <div class="shadow-lg rounded p-5 my-5">
+            <h6>Username: <span class="text-primary m-2 ">{{user.username}}</span></h6>
+            <h6>First Name: <span class="text-primary m-2 ">{{user.first_name}}</span></h6>
+            <h6>Last Name: <span class="text-primary m-2 ">{{user.last_name}}</span></h6>
+            <h6>Article Published <span class="text-primary m-2 ">{{articles|length}}</span></h6>
+            <h6>Average Rating <span class="text-primary m-2 ">{{avg_rating|floatformat:1}}</span></h6>
+
+        </div>
+        <section>
+        {% if not articles %}
+            <p>No article posted</p>
+        {% else %}
+            <h3 class="text-muted my-3">Articles</h3>
+            <div class="row row-cols-lg-4 row-cols-md-3 row-cols-12 align-items-stretch g-5">
+
+                {% for article in articles %}
+                <div class="col ">
+                    <div class="card">
+                        <article class="">
+                            {% if article.image %}
+                            <img class="img-fluid article_img" src="{{ article.image.url }}">
+                            {% else %}
+                            <img class="img-fluid article_img" src="{% static 'image.jpg' %}" alt="">
+                            {% endif %}
+                            <div class="px-2">
+                                <div class="mt-2 d-flex justify-content-between">
+                                    <small class="">Category:{{article.category.name}}</small>
+                                    <small>Author:<a class="text-decoration-none" href="{% url 'public_profile' article.author.username %}">{{article.author}}</a></small>
+                                </div>
+                                <small>Rating: {{article.rating}}</small>
+                                <a class="text-decoration-none text-dark" href="{% url 'detaile_article' article.id %}">
+                                    <h6 class="text-dark">{{article.headline}}</h6>
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    
+        </section>
+    </div>
+{% endblock body  %}
+    

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block body  %}
+<div class="container mb-5">
+    <h4 class="my-5">Latest Article</h4>
+    <div class="row row-cols-lg-3 row-cols-md-3 row-cols-12 align-items-stretch g-5">
+
+        {% for article in articles %}
+        <div class="col ">
+          <div class="card">
+            <article class="">
+              {% if article.image %}
+              <img class="img-fluid article_img" src="{{ article.image.url }}">
+              {% else %}
+              <img class="img-fluid article_img" src="{% static 'image.jpg' %}" alt="">
+              {% endif %}
+              <div class="px-3 pb-3">
+                <div class="mt-2 d-flex justify-content-between">
+                  <small class="">Category:{{article.category.name}}</small>
+                  <small>Author:<a class="text-decoration-none"
+                      href="{% url 'public_profile' article.author.username %}">{{article.author}}</a></small>
+                </div>
+                <small>Rating: {{article.rating}}</small>
+                <div>
+                  <small><a class="text-decoration-none fw-bold text-dark"
+                    href="{% url 'detaile_article' article.id %}">{{article.headline}}</a></small>
+                </div>
+                <div>
+                  <small class="text-muted">{{article.body|slice:'1:50'}}</small>
+                  <a href="{% url 'detaile_article' article.id %}">Read more...</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+</div>
+{% endblock body  %}
+    
