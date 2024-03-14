@@ -28,6 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+CSRF_TRUSTED_ORIGINS = ['https://django-portal.onrender.com','https://*.127.0.0.1']
 
 # Application definition
 
