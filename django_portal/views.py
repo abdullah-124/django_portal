@@ -8,7 +8,7 @@ def home(request):
     for c in category:
         article = Article.objects.filter(category = c).order_by('-rating')[:2]
         for i in article:
-            print(i.headline)
+            # print(i.headline)
             articles.append(i)
     return render(request, 'home.html', {'articles':articles})
 
